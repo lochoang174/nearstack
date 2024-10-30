@@ -35,6 +35,7 @@ export const flowSlice = createSlice({
         target: action.payload.targetId,
         markerEnd: { type: 'arrowclosed' },
       };
+      // @ts-ignore
       state.edges = xyAddEdge(newEdge, state.edges); // Sử dụng addEdge từ @xyflow/react
     },
     setNodes: (state, action: PayloadAction<Node[]>) => {

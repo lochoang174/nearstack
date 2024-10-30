@@ -2,6 +2,7 @@ import { useFlow } from '@/app/context/FlowProvider';
 import { useMessages } from '@/app/context/MessageProvider';
 import TextArea from 'antd/es/input/TextArea';
 import React, { useState } from 'react';
+// @ts-ignore
 import styled from 'styled-components';
 
 interface Message {
@@ -27,7 +28,8 @@ const ChatMessages = styled.div`
 
 const MessageBubbleContainer = styled.div<{ isUser: boolean }>`
   display: flex;
-  justify-content: ${props => props.isUser ? 'flex-end' : 'flex-start'};
+
+  justify-content: ${(props: { isUser: boolean }) => props.isUser? 'flex-end' : 'flex-start'};
   margin-bottom: 15px;
 `;
 
@@ -36,7 +38,8 @@ const MessageBubble = styled.div<{ isUser: boolean }>`
   padding: 10px;
   border-radius: 5px;
   max-width: 70%;
-  ${props => props.isUser ? `
+
+  ${(props: { isUser: boolean }) => props.isUser ? `
     background-color: #007bff;
     color: white;
   ` : `
@@ -70,7 +73,7 @@ const Button = styled.button`
 
 interface component {
   code: string;
-  filename: string;
+  file_name: string;
 }
 
 interface responseData {
@@ -142,7 +145,7 @@ const Chat: React.FC = () => {
         addMessage(dataResponse.message, false);
         for (let index = 0; index < dataResponse.components.length; index++) {
           const component = dataResponse.components[index];
-          addNewNode(component.code, component.filename, `${index+1}`, dataResponse.components.length);
+          addNewNode(component.code, component.file_name, `${index+1}`, dataResponse.components.length);
         }
       } catch (error) {
         console.error("Error fetching data:", error);

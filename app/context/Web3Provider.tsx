@@ -3,6 +3,7 @@
 import { memo, useEffect, useCallback, useState, createContext, useContext } from "react";
 import { ThemeProvider } from "next-themes";
 import { setupWalletSelector } from "@near-wallet-selector/core";
+// @ts-ignore
 import { Widget, useInitNear, useNear,useAccount } from "esm-near-social-vm";
 import { setupMyNearWallet } from "@near-wallet-selector/my-near-wallet";
 import { setupHereWallet } from "@near-wallet-selector/here-wallet";
@@ -85,6 +86,7 @@ const Web3Provider: React.FC<ProvidersProps> = ({ children }) => {
     if (!near) {
       return;
     }
+    // @ts-ignore
     near.selector.then((selector) => {
       setWalletModal(
         setupModal(selector, { contractId: near.config.contractName })

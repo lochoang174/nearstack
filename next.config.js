@@ -6,7 +6,7 @@ const nextConfig = {
 
   },
   reactStrictMode: false,  // (Tùy chọn) giữ strict mode cho React
-
+  output: 'standalone',
   webpackFinal: async (config, { configType }) => {
     config.resolve.alias = {
       ...config.resolve.alias,

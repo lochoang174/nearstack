@@ -1,9 +1,12 @@
 "use client";
 
 import { Handle, Position } from '@xyflow/react';
+// @ts-ignore
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+// @ts-ignore
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useState } from 'react';
+// @ts-ignore
 import { Widget } from 'esm-near-social-vm';
 
 const handleStyle = { left: 10 };

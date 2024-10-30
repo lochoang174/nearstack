@@ -17,12 +17,17 @@ import "@xyflow/react/dist/style.css";
 import { Tabs } from "antd";
 import { FaCodepen } from "react-icons/fa";
 import { GrDeploy } from "react-icons/gr";
-import { useSocket } from "./hooks/useSocket";
 import PreviewNode from "./components/PreviewNode";
 import Chat from "./components/Chat/Chat";
 import { FlowProvider, useFlow } from "./context/FlowProvider";
 import { MessageProvider } from "./context/MessageProvider";
 import { useWallet } from "./context/Web3Provider";
+import dynamic from 'next/dynamic'
+
+// Dynamically import ClientDB with ssr disabled
+const ClientDB = dynamic(() => import('./components/ClientDB'), {
+  ssr: false
+})
 
 const tabItems = [
   {
@@ -57,21 +62,20 @@ function AppContent() {
   const [title, setTitle] = useState("Editor");
   const [activeTab, setActiveTab] = useState("1");
   const [previewCode, setPreviewCode] = useState("");
-  const { socket } = useSocket();
 
   const handleTabChange = (key: string) => {
     setActiveTab(key);
   };
   useEffect(() => {
-    setCode(selectedNode?.data.code);
+    setCode(selectedNode?.data.code!.toString());
   }, [selectedNode]);
-  useEffect(() => {
-    if (socket) {
-      socket.on("NewMessage", (data) => {
-        // dispatch(setMessageList(data))
-      });
-    }
-  }, [socket]);
+  // useEffect(() => {
+  //   if (socket) {
+  //     socket.on("NewMessage", (data) => {
+  //       // dispatch(setMessageList(data))
+  //     });
+  //   }
+  // }, [socket]);
 
   const nodeTypes = useMemo(
     () => ({
@@ -110,7 +114,7 @@ function AppContent() {
       data={{
         widget: {
           // @ts-ignore
-          [selectedNode?.data.filename!]: {
+          [selectedNode?.data.fileName!]: {
             "": selectedNode?.data.code,
             metadata: {},
           },
@@ -189,7 +193,7 @@ function AppContent() {
             height="90vh"
             language="javascript"
             value={code}
-            onChange={(value) => setCode(value)}
+            onChange={(value) => setCode(value?.toString()??"")}
           />
         )}
       
@@ -240,6 +244,7 @@ function AppContent() {
 export default function App() {
   return (
     <FlowProvider>
+      <ClientDB/>
       <MessageProvider>
         <AppContent />
       </MessageProvider>
