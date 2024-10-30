@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "bootstrap";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  height: 100%;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+h1 {
+  @apply text-4xl font-bold ;
+}
+
+h2 {
+  @apply text-3xl font-semibold ;
+}
+
+h3 {
+  @apply text-2xl font-medium ;
+}
+body {
+  color: var(--foreground);
+  /* background: var(--background); */
+  /* font-family: Arial, Helvetica, sans-serif; */
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.code-node {
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  padding: 12px;
+  font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow: auto;
+  width: 300px;
+  max-height: 200px;
+}
+
+.copy-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 10;
+}
+
+.copy-icon {
+  width: 20px;
+  height: 20px;
+  color: #ffffff;
+  opacity: 0.7;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.copy-button:hover .copy-icon {
+  opacity: 1;
+}
+
+.copy-button:focus {
+  outline: none;
+}
+
+.copy-button:focus .copy-icon {
+  opacity: 1;
+}
