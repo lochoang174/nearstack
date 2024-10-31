@@ -3,7 +3,7 @@
 import "@near-wallet-selector/modal-ui/styles.css";
 import { useAppSelector } from "../redux/store";
 import { useWallet } from "../context/Web3Provider";
-import Image from "@/assets/nearstack.png";
+import Image from "@/assets/logo.png";
 export default function Header() {
   // const dispatch = useAppDispatch()
   // const { wallet } = useAppSelector((state) => state.wallet);
@@ -14,20 +14,26 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-[#d7d9df] text-white">
+    <header className=" text-white">
       <div className="flex justify-between items-center px-6 ">
         {/* <span className="text-[20px] self-center font-semibold">
           Near-stack
         </span> */}
-        <img src={Image.src} className="w-[100px] h-auto" alt="Near Stack Logo"/>
+        <div className="flex items-center ">
+        <img src={Image.src} className="w-auto h-[40px]" alt="Near Stack Logo"/>
+          {/* <span className="text-[20px] self-center font-medium text-[#0CF25D]">
+          Near-stack
+        </span> */}
+        </div>
+        
         {signedAccountId?
         <div
-        className="text-sm font-medium bg-white text-black px-4 py-2 rounded cursor-pointer"
+        className="text-sm font-medium  text-[#0CF25D] px-4 py-2 rounded-lg cursor-pointer border-[2px] border-[#0CF25D] border-solid"
         onClick={logOut}
       >
         {signedAccountId}
       </div>:<div
-          className="text-sm font-medium bg-[#0a132c] text-white px-4 py-2 rounded cursor-pointer hover:bg-white hover:text-black transition-all duration-300"
+          className="text-sm font-medium  text-[#0CF25D] px-4 py-2 rounded-lg cursor-pointer border-[2px] border-[#0CF25D] border-solid"
           onClick={onConnectWalletClicked}
         >
           Sign In

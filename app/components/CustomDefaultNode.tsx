@@ -12,7 +12,7 @@ export const CustomDefaultNode = ({ data }: ICustomDefaultNodeProps) => {
         <Handle type="target" position={Position.Top} />
         <div style={{
           padding: '12px',
-          backgroundColor: '#f8f9fa',
+          backgroundColor: '#0B1023',
           borderRadius: '8px',
           border: '1px solid #e9ecef',
           boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
@@ -20,13 +20,13 @@ export const CustomDefaultNode = ({ data }: ICustomDefaultNodeProps) => {
           fontSize: '14px',
         }}>
           <span style={{ 
-            color: '#495057', 
+            color: '#0CF25D', 
             fontWeight: 'bold',
             marginBottom: '4px',
           }}>
             Prompt: {" "}
           </span>
-          <span style={{ color: '#212529' }}>{data.label}</span>
+          <span style={{ color: 'white' }}>{data.label}</span>
         </div>
         <Handle type="source" position={Position.Bottom} />
       </>

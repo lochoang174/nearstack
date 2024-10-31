@@ -14,7 +14,7 @@ const MessageContext = createContext<MessageContextType | undefined>(undefined);
 
 export const MessageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [messages, setMessages] = useState<Message[]>([
-    { text: "Xin chào! Tôi là AI trợ lý. Bạn cần giúp gì không?", isUser: false },
+    { text: "Hello, I'm the Nearstack Assistant. How can I help you today?", isUser: false },
   ]);
 
   const addMessage = (text: string, isUser: boolean) => {

@@ -7,11 +7,15 @@ const nextConfig = {
   },
   reactStrictMode: false,  // (Tùy chọn) giữ strict mode cho React
   output: 'standalone',
-  webpackFinal: async (config, { configType }) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      "next/router": "next-router-mock",
-    };
+  staticPageGenerationTimeout: 0,
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      // Provide mock for indexedDB during server-side rendering
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        indexedDB: false,
+      };
+    }
     return config;
   },
   images: {

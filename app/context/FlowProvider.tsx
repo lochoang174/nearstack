@@ -96,6 +96,7 @@ export const FlowProvider: React.FC<{ children: React.ReactNode }> = ({ children
       id: `e-0-${id}`,
       source: '0',
       target: `${id}`,
+      type: 'custom-edge',
       markerEnd: { type: MarkerType.Arrow },
     };
     // Thêm edge từ code node đến preview node
@@ -103,6 +104,7 @@ export const FlowProvider: React.FC<{ children: React.ReactNode }> = ({ children
       id: `e-${id}-p-${id}`,
       source: `${id}`,
       target: `p-${id}`,
+      type: 'custom-edge',
       markerEnd: { type: MarkerType.Arrow },
     };
     // @ts-ignore

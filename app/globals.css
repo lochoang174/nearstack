@@ -2,7 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 @import "bootstrap";
+@font-face {
+  font-family: 'Space Mono';
+  src: url('../assets/font/SpaceMono-Regular.ttf') format('truetype');
 
+}
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -28,8 +32,9 @@ h3 {
 }
 body {
   color: var(--foreground);
-  /* background: var(--background); */
+  background: #050A19; /* Uncommented and changed to direct color value */
   /* font-family: Arial, Helvetica, sans-serif; */
+  font-family: 'Space Mono', monospace;
 }
 
 @layer utilities {
@@ -39,7 +44,7 @@ body {
 }
 
 .code-node {
-  background-color: #1e1e1e;
+  background-color: #050A19;
   border-radius: 8px;
   padding: 12px;
   font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;

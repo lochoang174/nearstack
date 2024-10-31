@@ -15,7 +15,7 @@ export function PreviewNode({ data }: PreviewNodeProps) {
       <div style={{
         borderRadius: '8px',
         // backgroundColor: '#f8f9fa',
-        border: '1px solid #e9ecef',
+        // border: '1px solid #e9ecef',
         boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
         padding: '10px',
         // width: '100%',
@@ -29,7 +29,7 @@ export function PreviewNode({ data }: PreviewNodeProps) {
         // height:"1000px",
         // width:"2000px",
 
-        backgroundColor:"gray"
+        backgroundColor:"#050A19"
       }}>
         
           {data.component || <p>No component to preview</p>}

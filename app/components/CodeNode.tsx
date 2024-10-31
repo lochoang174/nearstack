@@ -4,7 +4,7 @@ import { Handle, Position } from '@xyflow/react';
 // @ts-ignore
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 // @ts-ignore
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { vscDarkPlus,vsLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useState } from 'react';
 // @ts-ignore
 import { Widget } from 'esm-near-social-vm';
@@ -45,7 +45,8 @@ export function CodeNode({ data }: ICodeNodeProps) {
         <SyntaxHighlighter
           language="javascript"
           style={vscDarkPlus}
-          customStyle={{ margin: 0, borderRadius: '5px', paddingTop: '30px' }}
+          customStyle={{ margin: 0, borderRadius: '5px', paddingTop: '30px',backgroundColor:'#050A19' }}
+          
         >
           {data.code}
         

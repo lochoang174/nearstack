@@ -4,6 +4,7 @@ import TextArea from 'antd/es/input/TextArea';
 import React, { useState } from 'react';
 // @ts-ignore
 import styled from 'styled-components';
+import { Spin } from 'antd';
 
 interface Message {
   text: string;
@@ -13,8 +14,9 @@ interface Message {
 const ChatContainer = styled.div`
   width: 100%;
   height: 100%;
-  margin: 20px auto;
-  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   overflow: hidden;
@@ -23,7 +25,7 @@ const ChatContainer = styled.div`
 const ChatMessages = styled.div`
   height: 468px;
   overflow-y: auto;
-  padding: 20px;
+  padding: 4px;
 `;
 
 const MessageBubbleContainer = styled.div<{ isUser: boolean }>`
@@ -36,39 +38,16 @@ const MessageBubbleContainer = styled.div<{ isUser: boolean }>`
 const MessageBubble = styled.div<{ isUser: boolean }>`
   display: inline-block;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 12px;
   max-width: 70%;
 
   ${(props: { isUser: boolean }) => props.isUser ? `
-    background-color: #007bff;
+    background-color: #0B1123;
     color: white;
   ` : `
-    background-color: #e9e9e9;
-    color: black;
+    background-color: #00B862;
+    color: white;
   `}
-`;
-
-const ChatInput = styled.div`
-  display: flex;
-  padding: 10px;
-  background-color: #f9f9f9;
-`;
-
-const Input = styled.input`
-  flex-grow: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-`;
-
-const Button = styled.button`
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  margin-left: 10px;
-  cursor: pointer;
 `;
 
 interface component {
@@ -83,7 +62,7 @@ interface responseData {
 
 const ExampleContainer = styled.div`
   position: absolute;
-  bottom: 120px;
+  bottom: 138px;
   left: 20px;
   display: flex;
   gap: 10px;
@@ -92,7 +71,8 @@ const ExampleContainer = styled.div`
 
 const ExamplePrompt = styled.div`
   padding: 8px 16px;
-  background-color: #f0f0f0;
+  color: #62DBA3;
+  border: 1px solid #62DBA3;
   border-radius: 20px;
   cursor: pointer;
   font-size: 14px;
@@ -105,15 +85,17 @@ const Chat: React.FC = () => {
   const { setNodeDefault, addNewNode } = useFlow();
   const { messages, addMessage } = useMessages();
   const [prompt, setPrompt] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const examplePrompts = [
     "Create a login component",
     "Create a dashboard layout",
-    "Generate a user profile page"
+    "Create a button"
   ];
 
   const handleExampleClick = (example: string) => {
     addMessage(example, true);
+    setIsLoading(true);
     setNodeDefault(example, "0");
     handleSend();
   };
@@ -124,6 +106,7 @@ const Chat: React.FC = () => {
       if (prompt.trim() !== '') {
         addMessage(prompt, true);
         setNodeDefault(prompt, "0");
+        setIsLoading(true);
         handleSend();
         setPrompt('');
       }
@@ -132,6 +115,7 @@ const Chat: React.FC = () => {
 
   const handleSend = async () => {
     if (prompt.trim()) {
+      setIsLoading(true);
       try {
         const response = await fetch(`http://13.239.57.30/answer?input_str=${prompt}`, {
           method: 'POST',
@@ -149,6 +133,8 @@ const Chat: React.FC = () => {
         }
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -163,6 +149,13 @@ const Chat: React.FC = () => {
             </MessageBubble>
           </MessageBubbleContainer>
         ))}
+        {isLoading && (
+          <MessageBubbleContainer isUser={false}>
+            <MessageBubble isUser={false}>
+              <Spin /> Processing...
+            </MessageBubble>
+          </MessageBubbleContainer>
+        )}
       </ChatMessages>
       {messages.length === 1 && (
         <ExampleContainer>
@@ -176,12 +169,13 @@ const Chat: React.FC = () => {
           ))}
         </ExampleContainer>
       )}
-      <TextArea
+      <textarea
         rows={4}
         placeholder="Input your prompt, ex: Create home component"
         value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
+        onChange={(e) => setPrompt(e.target.value)} 
         onKeyDown={handleKeyDown}
+        className="w-full p-2 rounded-lg bg-[#0B1123] text-white resize-none border-none focus:outline-none focus:ring-0"
       />
     </ChatContainer>
   );

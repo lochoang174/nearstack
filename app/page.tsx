@@ -14,15 +14,17 @@ import { Editor } from "@monaco-editor/react";
 //@ts-ignore
 import { Widget, CommitButton } from "esm-near-social-vm";
 import "@xyflow/react/dist/style.css";
-import { Tabs } from "antd";
+import Tabs from './components/Tabs/Tabs';
 import { FaCodepen } from "react-icons/fa";
 import { GrDeploy } from "react-icons/gr";
 import PreviewNode from "./components/PreviewNode";
 import Chat from "./components/Chat/Chat";
+import { FaMessage } from "react-icons/fa6";
 import { FlowProvider, useFlow } from "./context/FlowProvider";
 import { MessageProvider } from "./context/MessageProvider";
 import { useWallet } from "./context/Web3Provider";
 import dynamic from 'next/dynamic'
+import CustomEdge from "./components/CustomEdge";
 
 // Dynamically import ClientDB with ssr disabled
 const ClientDB = dynamic(() => import('./components/ClientDB'), {
@@ -32,7 +34,7 @@ const ClientDB = dynamic(() => import('./components/ClientDB'), {
 const tabItems = [
   {
     id: "1",
-    icon: FaCodepen,
+    icon: FaMessage,
     label: "Chat",
   },
   {
@@ -85,7 +87,9 @@ function AppContent() {
     }),
     []
   );
-
+  const edgeTypes = {
+    'custom-edge': CustomEdge,
+  };
   const handleAddNewNode = () => {
     // addNewNode(code, fileName);
   };
@@ -108,7 +112,7 @@ function AppContent() {
 
   const commitButton = (
     <CommitButton
-      className="btn btn-outline-primary mr-2 self-center"
+      className="border-[2px] border-[#0CF25D] border-solid text-[#0CF25D] px-2 py-2 rounded-lg mr-2"
       disabled={false}
       near={near}
       data={{
@@ -128,93 +132,66 @@ function AppContent() {
   return (
     <div className="flex h-full">
       {/* Editor Column */}
-      <div className="flex-1 py-1 px-2 border-r border-gray-300 flex flex-col">
+      <div className="flex-1 py-1 px-2  flex flex-col">
         <div className="flex justify-between">
           <Tabs
-            defaultActiveKey="1"
-            onChange={handleTabChange}
-            items={tabItems.map((tab) => ({
-              key: tab.id,
-              label: tab.label,
-            }))}
+            items={tabItems}
+            activeTab={activeTab}
+            onTabChange={handleTabChange}
           />
-          <div className="self-center">
-            {/* <button
-              onClick={handleAddNewNode}
-              className=" mr-4 px-1 py-1 bg-black  text-white rounded hover:bg-blue-600"
-            >
-              Add
-            </button> */}
-
-            {activeTab === "2" && commitButton}
-            <button
-              onClick={handlePreview}
-              className=" px-2 py-2 bg-green-500 text-white rounded hover:bg-blue-600 self-center"
-            >
-              Preview
-            </button>
-          </div>
+          {activeTab === "2" && (
+            <div className="self-center">
+              {commitButton}
+              <button
+                onClick={handlePreview}
+                className="px-2 py-2 bg-[#0cf25dc8] text-white rounded self-center"
+              >
+                Preview
+              </button>
+            </div>
+          )}
         </div>
-
+        
         {activeTab === "1" && (
           <>
-            {/* <span className="text-xl  mb-2">{title}</span> */}
 
             <Chat />
-            {/* <div className="flex-1 border border-solid ">
-              <Widget
-                key={`1232133`}
-                // config={widgetConfig}
-                code={previewCode}
-
-                // props={parsedWidgetProps}
-              />
-            </div> */}
+          
           </>
         )}
 
         {activeTab === "2" && (
-          // <>
-          //    {/* <Widget
-          //     src={"eugenethedream/widget/WidgetMetadataEditor"}
-          //     key={`metadata-editor`}
-          //     // props={useMemo(
-          //     //   () => ({
-          //     //     widgetPath,
-          //     //     onChange: setMetadata,
-          //     //   }),
-          //     //   [widgetPath]
-          //     // )}
-          //   />  */}
-          //   {/* <div>{commitButton}</div> */}
-          // </>
+         
 
           <Editor
             height="90vh"
+            className="rounded-lg"
             language="javascript"
+            theme="custom-theme"
             value={code}
             onChange={(value) => setCode(value?.toString()??"")}
+           beforeMount={(monaco)=>{
+            monaco.editor.defineTheme('custom-theme', {
+              base: 'vs-dark',
+              inherit: true,
+              rules: [],
+              colors: {
+                'editor.background': '#050A19',
+
+              }
+            });
+           }}
           />
         )}
       
       </div>
 
       {/* React Flow Column */}
-      <div className="flex-1 p-4 flex flex-col">
+      <div className="flex-1 p-4 flex flex-col bg-[#00030D]">
         <>
-          {/* <div className="w-full">
-              <textarea
-                className="w-full outline-none"
-                id=""
-                value={prompt}
-                rows={3}
-                placeholder="Input your prompt, ex: Create home component"
-                onChange={(e) => setPrompt(e.target.value)}
-                onKeyDown={handleKeyDown} // Listen for Enter key
-              />
-            </div> */}
+          
 
-          <div className="border rounded p-4 h-full">
+          <div className=" rounded  h-full">
             <ReactFlow
               nodes={nodes}
               edges={edges}
@@ -222,14 +199,17 @@ function AppContent() {
               onEdgesChange={onEdgesChange}
               onConnect={onConnect}
               nodeTypes={nodeTypes}
+              edgeTypes={edgeTypes}
+
               onNodeClick={onNodeClick}
               fitView
             >
               <Controls />
               <MiniMap />
               <Background
-                variant={BackgroundVariant.Lines}
-                bgColor="#ccc"
+                variant={BackgroundVariant.Dots}
+                bgColor="#00030D"
+                color="#0CF25D"
                 gap={12}
                 size={1}
               />
