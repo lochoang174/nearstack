@@ -97,7 +97,7 @@ const Chat: React.FC = () => {
     addMessage(example, true);
     setIsLoading(true);
     setNodeDefault(example, "0");
-    handleSend();
+    handleSend(example);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -107,13 +107,13 @@ const Chat: React.FC = () => {
         addMessage(prompt, true);
         setNodeDefault(prompt, "0");
         setIsLoading(true);
-        handleSend();
+        handleSend(prompt);
         setPrompt('');
       }
     }
   };
 
-  const handleSend = async () => {
+  const handleSend = async (prompt: string) => {
     if (prompt.trim()) {
       setIsLoading(true);
       try {
