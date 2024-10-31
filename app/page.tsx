@@ -119,7 +119,7 @@ function AppContent() {
         widget: {
           // @ts-ignore
           [selectedNode?.data.fileName!]: {
-            "": selectedNode?.data.code,
+            "":code,
             metadata: {},
           },
         },
